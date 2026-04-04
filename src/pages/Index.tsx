@@ -1,16 +1,20 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState, lazy, Suspense } from "react";
+import type { ServiceType } from "@/types";
+import Loader from "@/components/ui/Loader";
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+const LandingPage = lazy(() => import("@/pages/LandingPage"));
+const IDUpdateFlow = lazy(() => import("@/pages/IDUpdateFlow"));
+
+export default function Index() {
+  const [activeService, setActiveService] = useState<ServiceType | null>(null);
+
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
-    </div>
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Loader text="Loading..." size="lg" /></div>}>
+      {activeService === "identity-document" ? (
+        <IDUpdateFlow onBack={() => setActiveService(null)} />
+      ) : (
+        <LandingPage onSelectService={setActiveService} />
+      )}
+    </Suspense>
   );
-};
-
-const Index = PlaceholderIndex;
-
-export default Index;
+}
