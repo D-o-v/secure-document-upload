@@ -34,6 +34,15 @@ export async function submitIDUpdate(formData: FormData): Promise<APIResponse> {
   return { success: true, message: "Your update request is in progress, it will be updated within 24 hours." };
 }
 
+export async function submitAccountUpgrade(formData: FormData): Promise<APIResponse> {
+  await delay(2500);
+  const shouldFail = Math.random() < 0.15;
+  if (shouldFail) {
+    return { success: false, message: "Your account upgrade request failed. Kindly check the reason and resubmit." };
+  }
+  return { success: true, message: "Your account upgrade request is in progress, it will be updated within 24 hours." };
+}
+
 export async function uploadFile(
   file: File,
   onProgress: (progress: number) => void

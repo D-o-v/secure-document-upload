@@ -14,6 +14,11 @@ export const ID_DOCUMENT_TYPES = [
   { value: "international-passport", label: "International Passport" },
 ] as const;
 
+export const ACCOUNT_UPGRADE_TIERS = [
+  { value: "tier-1", label: "Tier 1" },
+  { value: "tier-2", label: "Tier 2" },
+] as const;
+
 export const SERVICES: ServiceCard[] = [
   {
     id: "account-conversion",
