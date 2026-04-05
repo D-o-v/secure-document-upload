@@ -108,6 +108,8 @@ export default function IDUpdateFormStep({
               onChange={(file) => field.onChange(file)}
               value={field.value}
               error={errors.idFrontFile?.message}
+              showInstructions
+              documentType="id"
             />
           )}
         />
