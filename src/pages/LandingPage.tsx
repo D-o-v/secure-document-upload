@@ -1,31 +1,8 @@
 import { useState, useMemo } from "react";
 import AppLayout from "@/components/layout/AppLayout";
 import { SERVICES } from "@/utils/constants";
-import {
-  Repeat,
-  TrendingUp,
-  MapPin,
-  Calendar,
-  RefreshCw,
-  Mail,
-  FileText,
-  Phone,
-  Shield,
-  CheckCircle2,
-} from "lucide-react";
+import { Check } from "lucide-react";
 import type { ServiceType } from "@/types";
-
-const ICON_MAP: Record<string, React.ReactNode> = {
-  repeat: <Repeat className="w-6 h-6" />,
-  "trending-up": <TrendingUp className="w-6 h-6" />,
-  "map-pin": <MapPin className="w-6 h-6" />,
-  calendar: <Calendar className="w-6 h-6" />,
-  "refresh-cw": <RefreshCw className="w-6 h-6" />,
-  mail: <Mail className="w-6 h-6" />,
-  "file-text": <FileText className="w-6 h-6" />,
-  phone: <Phone className="w-6 h-6" />,
-  shield: <Shield className="w-6 h-6" />,
-};
 
 interface LandingPageProps {
   onSelectService: (service: ServiceType) => void;
@@ -33,6 +10,8 @@ interface LandingPageProps {
 
 export default function LandingPage({ onSelectService }: LandingPageProps) {
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchOpen, setSearchOpen] = useState(false);
+  const isSearching = searchOpen || searchQuery.length > 0;
 
   const filteredServices = useMemo(
     () =>
@@ -45,43 +24,45 @@ export default function LandingPage({ onSelectService }: LandingPageProps) {
   );
 
   return (
-    <AppLayout onSearch={setSearchQuery}>
-      <div className="mb-6">
-        <p className="text-sm text-muted-foreground">
+    <AppLayout onSearch={setSearchQuery} onSearchOpenChange={setSearchOpen} isSearchActive={isSearching}>
+      <div className="mb-4 sm:mb-6">
+        <p className="text-xs sm:text-sm text-muted-foreground">
           Kindly select an account management service
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
         {filteredServices.map((service) => (
           <article
             key={service.id}
-            className="fb-card flex flex-col hover:shadow-md transition-shadow"
+            onClick={() => onSelectService(service.id)}
+            className={`fb-card flex flex-col hover:bg-[#002855] hover:text-white hover:border-[#002855] transition-all duration-200 cursor-pointer group ${
+              isSearching ? 'bg-white border-white' : 'bg-[#E5F3FDB2] border-[#E5F3FDB2]'
+            }`}
           >
-            <div className="flex items-start gap-3 mb-3">
-              <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center text-secondary-foreground flex-shrink-0">
-                {ICON_MAP[service.icon]}
+            <div className="mb-3">
+              <div className="w-10 h-10 rounded-lg bg-[#0B2E4F] group-hover:bg-white/20 flex items-center justify-center flex-shrink-0 transition-colors mb-2">
+                <img src={service.icon} alt="" className="w-5 h-5 brightness-0 invert" />
               </div>
-              <h2 className="text-sm font-semibold text-foreground leading-tight pt-1">
+              <h2 className="text-sm font-semibold text-foreground group-hover:text-white leading-tight transition-colors">
                 {service.title}
               </h2>
             </div>
 
             <ul className="space-y-1 mb-4 flex-1">
               {service.requirements.map((req) => (
-                <li key={req} className="flex items-start gap-2 text-xs text-muted-foreground">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-success mt-0.5 flex-shrink-0" />
+                <li key={req} className="flex items-start gap-2 text-xs text-muted-foreground group-hover:text-white/80 transition-colors">
+                  <Check className="w-3.5 h-3.5 text-success mt-0.5 flex-shrink-0 transition-colors" />
                   {req}
                 </li>
               ))}
             </ul>
 
-            <button
-              onClick={() => onSelectService(service.id)}
-              className="fb-link text-left text-xs mt-auto"
+            <span
+              className="text-sm text-[#002855] font-bold underline group-hover:text-white text-left mt-auto transition-colors cursor-pointer"
             >
               {service.actionLabel}
-            </button>
+            </span>
           </article>
         ))}
       </div>

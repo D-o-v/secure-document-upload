@@ -4,14 +4,16 @@ import Header from "./Header";
 interface AppLayoutProps {
   children: ReactNode;
   onSearch?: (query: string) => void;
+  onSearchOpenChange?: (open: boolean) => void;
+  isSearchActive?: boolean;
 }
 
-export default function AppLayout({ children, onSearch }: AppLayoutProps) {
+export default function AppLayout({ children, onSearch, onSearchOpenChange, isSearchActive }: AppLayoutProps) {
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      <Header onSearch={onSearch} />
+    <div className={`min-h-screen flex flex-col transition-colors duration-200 ${isSearchActive ? 'bg-[#E5F3FDB2]' : 'bg-background'}`}>
+      <Header onSearch={onSearch} onSearchOpenChange={onSearchOpenChange} isSearchActive={isSearchActive} />
       <main className="flex-1">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 md:py-8">
           {children}
         </div>
       </main>
@@ -21,42 +23,180 @@ export default function AppLayout({ children, onSearch }: AppLayoutProps) {
 }
 
 function Footer() {
-  const footerLinks = {
-    Services: ["Account Opening", "Internet Banking", "Business Banking", "Private Banking", "Savings Account"],
-    Security: ["Anti-Fraud", "Security Tips", "Secure Online", "Help Desk"],
-    "Important Info": ["FirstMobile on GooglePlay", "First & Beyond", "Code of Ethics", "Agent Network"],
-    Legal: ["Savings", "Terms of Use", "Privacy Policy", "Cookie Policy", "Whistleblower Policy", "International Cybersecurity Policy", "Data Protection Profile"],
-  };
-
   return (
-    <footer className="bg-secondary text-secondary-foreground mt-auto">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {Object.entries(footerLinks).map(([category, links]) => (
-            <div key={category}>
-              <h3 className="text-xs font-semibold mb-3 uppercase tracking-wider opacity-80">
-                {category}
-              </h3>
-              <ul className="space-y-1.5">
-                {links.map((link) => (
-                  <li key={link}>
-                    <a href="#" className="text-xs opacity-60 hover:opacity-100 transition-opacity">
-                      {link}
+    <footer className="bg-[#003b65] text-white relative overflow-hidden">
+      {/* Background watermark */}
+      <img
+        src="/first-bank-logo-edited-for-footer.png"
+        alt=""
+        aria-hidden="true"
+        className="absolute -left-32 bottom-0 h-[75%] w-auto opacity-[0.12] pointer-events-none select-none"
+      />
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
+        {/* Top Row (Language + Socials) */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+          <div className="flex items-center gap-3">
+            <img
+              src="/First-Bank-Logo_Symbol_elephant_only.svg"
+              alt="FirstBank"
+              className="h-7 w-auto"
+            />
+            <select className="bg-white rounded-sm px-3 py-1.5 min-w-[120px] sm:min-w-[140px] text-black text-sm border-none outline-none cursor-pointer appearance-none pr-8" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 10px center' }}>
+              <option value="en">English</option>
+              <option value="fr">French</option>
+              <option value="ar">Arabic</option>
+            </select>
+          </div>
+
+          <div className="flex flex-wrap gap-2.5 sm:gap-3">
+            {/* Facebook */}
+            <a href="#" className="w-9 h-9 rounded-full bg-[#032f50] flex items-center justify-center hover:bg-[#002855] transition-colors">
+              <svg className="w-4 h-4 fill-white" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+            {/* X */}
+            <a href="#" className="w-9 h-9 rounded-full bg-[#032f50] flex items-center justify-center hover:bg-[#002855] transition-colors">
+              <svg className="w-4 h-4 fill-white" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            {/* Instagram */}
+            <a href="#" className="w-9 h-9 rounded-full bg-[#032f50] flex items-center justify-center hover:bg-[#002855] transition-colors">
+              <svg className="w-4 h-4 fill-white" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+            </a>
+            {/* YouTube */}
+            <a href="#" className="w-9 h-9 rounded-full bg-[#032f50] flex items-center justify-center hover:bg-[#002855] transition-colors">
+              <svg className="w-4 h-4 fill-white" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            </a>
+            {/* LinkedIn */}
+            <a href="#" className="w-9 h-9 rounded-full bg-[#032f50] flex items-center justify-center hover:bg-[#002855] transition-colors">
+              <svg className="w-4 h-4 fill-white" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        {/* Divider */}
+        <div className="border-t border-yellow-500 mb-8"></div>
+
+        {/* Links */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-10 text-sm">
+          {/* Banking */}
+          <div>
+            <h3 className="uppercase text-xs font-bold tracking-wider mb-4 opacity-80">
+              Banking
+            </h3>
+            <ul className="space-y-2 opacity-70">
+              {[
+                "Corporate Information",
+                "Personal Banking",
+                "Business Banking",
+                "Private Banking",
+                "Loan Calculator",
+                "Vendor Portal",
+                "Download Forms",
+                "USSD",
+                "Update BVN/NIN",
+              ].map((item) => (
+                <li key={item}>
+                  <a href="#" className="hover:opacity-100">
+                    {item}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Security */}
+          <div>
+            <h3 className="uppercase text-xs font-bold tracking-wider mb-4 opacity-80">
+              Security
+            </h3>
+            <ul className="space-y-2 opacity-70">
+              {["BVN", "Anti-Fraud", "Security Tips", "Secure Code"].map(
+                (item) => (
+                  <li key={item}>
+                    <a href="#" className="hover:opacity-100">
+                      {item}
                     </a>
                   </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-        <div className="mt-8 pt-4 border-t border-secondary-foreground/10 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p className="text-xs opacity-50">
-            ©2024 FirstBank of Nigeria Limited. All rights reserved.
-          </p>
-          <div className="flex items-center gap-2">
-            <span className="text-xs opacity-50">Powered by</span>
-            <span className="text-xs font-semibold opacity-70">FirstBank</span>
+                )
+              )}
+            </ul>
           </div>
+
+          {/* Contact */}
+          <div>
+            <h3 className="uppercase text-xs font-bold tracking-wider mb-4 opacity-80">
+              Contact Us
+            </h3>
+            <ul className="space-y-2 opacity-70">
+              {[
+                "Feedback and Complaints",
+                "Whistleblowing",
+                "Find a Branch",
+                "Contact Form",
+                "Find an Agent",
+                "Agent Network",
+              ].map((item) => (
+                <li key={item}>
+                  <a href="#" className="hover:opacity-100">
+                    {item}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Legal */}
+          <div>
+            <h3 className="uppercase text-xs font-bold tracking-wider mb-4 opacity-80">
+              Legal
+            </h3>
+            <ul className="space-y-2 opacity-70">
+              {[
+                "Sitemap",
+                "Terms of Use",
+                "Privacy Policy",
+                "Cookies Policy",
+                "Communications Policy",
+                "Information and Cybersecurity Policy",
+                "Delete FirstMobile Profile",
+              ].map((item) => (
+                <li key={item}>
+                  <a href="#" className="hover:opacity-100">
+                    {item}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Bottom Divider */}
+        <div className="border-t border-yellow-500 mt-10 pt-4 flex flex-col sm:flex-row justify-between items-center gap-2 text-xs opacity-60">
+          <p>
+            © 2024 First Bank of Nigeria Ltd. An FBNHoldings Company. Licensed
+            by the Central Bank of Nigeria
+          </p>
+
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="hover:opacity-100"
+          >
+            Back to Top
+          </button>
+        </div>
+      </div>
+
+      {/* Floating Assistant */}
+      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 bg-white text-black pl-1.5 pr-3 sm:pr-4 py-1.5 flex items-center gap-2 sm:gap-2.5 shadow-lg z-50 cursor-pointer hover:shadow-xl transition-shadow" style={{ borderRadius: '0 28px 28px 28px' }}>
+        <img
+          src="/fibani-avartar-section.webp"
+          alt="Fibani"
+          className="w-10 h-10 flex-shrink-0 object-cover object-[center_60%]"
+          style={{ borderRadius: '50%', display: 'block' }}
+        />
+        <div>
+          <p className="text-xs font-semibold">Fibani</p>
+          <p className="text-[10px] opacity-60">Your virtual assistant</p>
         </div>
       </div>
     </footer>

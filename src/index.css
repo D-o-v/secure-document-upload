@@ -65,7 +65,7 @@
     @apply bg-secondary text-secondary-foreground;
   }
   .fb-card {
-    @apply bg-card rounded-lg border border-border shadow-sm p-6;
+    @apply bg-card rounded-lg border border-border shadow-sm p-4 sm:p-6;
   }
   .fb-input {
     @apply w-full px-3 py-2.5 border border-border rounded-md text-sm bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-colors;
@@ -89,7 +89,7 @@
     @apply text-destructive text-xs mt-1;
   }
   .fb-upload-zone {
-    @apply border-2 border-dashed border-border rounded-lg p-6 text-center cursor-pointer hover:border-primary hover:bg-primary/5 transition-colors;
+    @apply border-2 border-dashed border-border rounded-lg p-4 sm:p-6 text-center cursor-pointer hover:border-primary hover:bg-primary/5 transition-colors;
   }
   .fb-upload-zone-active {
     @apply border-primary bg-primary/5;

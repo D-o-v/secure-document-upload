@@ -1,36 +1,39 @@
-import { Search, HelpCircle } from "lucide-react";
+import { Search, Headset } from "lucide-react";
 import { useState } from "react";
 
 interface HeaderProps {
   onSearch?: (query: string) => void;
+  onSearchOpenChange?: (open: boolean) => void;
+  isSearchActive?: boolean;
 }
 
-export default function Header({ onSearch }: HeaderProps) {
+export default function Header({ onSearch, onSearchOpenChange, isSearchActive }: HeaderProps) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
   return (
-    <header className="bg-card border-b border-border">
+    <header className={`border-b border-border transition-colors duration-200 sticky top-0 z-40 ${isSearchActive ? 'bg-[#E5F3FDB2]' : 'bg-card'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1.5">
-              <span className="text-xl font-bold text-foreground">
-                First<span className="text-primary">Bank</span>
-              </span>
-              <span className="text-primary text-lg">🏦</span>
-            </div>
+            <img
+              src="/FirstBankLogoWithElephant.svg"
+              alt="FirstBank"
+              className="h-8 sm:h-10 w-auto"
+            />
           </div>
 
           {/* Right side */}
           <div className="flex items-center gap-3">
-            <a
-              href="#"
-              className="fb-link hidden sm:inline-flex items-center text-xs"
-            >
-              Open a FirstBank account
-            </a>
+            {!searchOpen && (
+              <a
+                href="#"
+                className="hidden sm:inline-flex items-center text-xs font-medium text-[#002855] hover:underline cursor-pointer"
+              >
+                Open a FirstBank account
+              </a>
+            )}
 
             {searchOpen ? (
               <div className="relative">
@@ -42,26 +45,32 @@ export default function Header({ onSearch }: HeaderProps) {
                     setSearchQuery(e.target.value);
                     onSearch?.(e.target.value);
                   }}
-                  className="fb-input w-48 sm:w-64 pr-8 text-xs"
+                  className="w-36 sm:w-64 pr-8 text-xs px-3 py-2.5 border border-[#002855] rounded-md bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#002855] focus:border-transparent transition-colors"
                   autoFocus
                   onBlur={() => {
-                    if (!searchQuery) setSearchOpen(false);
+                    if (!searchQuery) {
+                      setSearchOpen(false);
+                      onSearchOpenChange?.(false);
+                    }
                   }}
                 />
-                <Search className="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <Search className="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#002855]" />
               </div>
             ) : (
               <button
-                onClick={() => setSearchOpen(true)}
+                onClick={() => {
+                  setSearchOpen(true);
+                  onSearchOpenChange?.(true);
+                }}
                 className="p-2 hover:bg-muted rounded-md transition-colors"
                 aria-label="Search"
               >
-                <Search className="w-4 h-4 text-muted-foreground" />
+                <Search className="w-4 h-4 text-[#002855]" />
               </button>
             )}
 
-            <button className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary text-primary-foreground rounded-md text-xs font-medium hover:opacity-90 transition-opacity">
-              <HelpCircle className="w-3.5 h-3.5" />
+            <button className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary text-black rounded-md text-xs font-medium hover:opacity-90 transition-opacity">
+              <Headset className="w-3.5 h-3.5" />
               Help
             </button>
           </div>

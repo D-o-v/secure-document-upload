@@ -16,7 +16,7 @@ export default function TermsStep({ onAccept, onReject }: TermsStepProps) {
         Account Maintenance Terms and Conditions
       </h2>
 
-      <div className="bg-muted/50 rounded-lg p-4 mb-6 max-h-[400px] overflow-y-auto">
+      <div className="bg-muted/50 rounded-lg p-3 sm:p-4 mb-6 max-h-[350px] sm:max-h-[400px] overflow-y-auto">
         <div className="text-xs text-foreground leading-relaxed whitespace-pre-line">
           {TERMS_TEXT}
         </div>

@@ -64,7 +64,7 @@ export default function OTPInput({ value, onChange, error, disabled }: OTPInputP
             onKeyDown={(e) => handleKeyDown(i, e)}
             onPaste={i === 0 ? handlePaste : undefined}
             disabled={disabled}
-            className={`w-10 h-12 text-center text-lg font-semibold border rounded-md focus:outline-none focus:ring-2 transition-colors
+            className={`w-9 h-11 sm:w-10 sm:h-12 text-center text-base sm:text-lg font-semibold border rounded-md focus:outline-none focus:ring-2 transition-colors
               ${error ? "border-destructive focus:ring-destructive" : "border-border focus:ring-ring"}
               ${disabled ? "opacity-50 cursor-not-allowed bg-muted" : "bg-card"}`}
             aria-label={`Digit ${i + 1}`}
