@@ -1,4 +1,4 @@
-import { useState, useCallback, lazy, Suspense } from "react";
+import { useState, useCallback, useEffect, lazy, Suspense } from "react";
 import AppLayout from "@/components/layout/AppLayout";
 import StepProgress from "@/components/ui/StepProgress";
 import Loader from "@/components/ui/Loader";
@@ -34,6 +34,11 @@ export default function IDUpdateFlow({ onBack }: IDUpdateFlowProps) {
   const [step, setStep] = useState<FlowStep>("consent");
   const [accountNumber, setAccountNumber] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [step]);
+
   const [modal, setModal] = useState<{
     open: boolean;
     variant: "success" | "error";

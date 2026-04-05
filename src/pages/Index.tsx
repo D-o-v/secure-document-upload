@@ -1,4 +1,4 @@
-import { useState, lazy, Suspense } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import type { ServiceType } from "@/types";
 import Loader from "@/components/ui/Loader";
 
@@ -8,6 +8,10 @@ const AccountUpgradeFlow = lazy(() => import("@/pages/AccountUpgradeFlow"));
 
 export default function Index() {
   const [activeService, setActiveService] = useState<ServiceType | null>(null);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [activeService]);
 
   return (
     <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Loader text="Loading..." size="lg" /></div>}>
