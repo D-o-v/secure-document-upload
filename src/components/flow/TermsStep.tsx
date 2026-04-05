@@ -11,7 +11,7 @@ export default function TermsStep({ onAccept, onReject }: TermsStepProps) {
   const [accepted, setAccepted] = useState(false);
 
   return (
-    <div className="animate-fade-in max-w-2xl">
+    <div className="animate-fade-in w-full max-w-2xl mx-auto">
       <h2 className="text-base font-semibold text-foreground mb-4">
         Account Maintenance Terms and Conditions
       </h2>

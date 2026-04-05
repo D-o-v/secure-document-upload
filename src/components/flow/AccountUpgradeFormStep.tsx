@@ -65,7 +65,7 @@ export default function AccountUpgradeFormStep({
   });
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="animate-fade-in space-y-5 max-w-lg">
+    <form onSubmit={handleSubmit(onSubmit)} className="animate-fade-in space-y-5 w-full max-w-2xl mx-auto">
       <InputField
         label="Account number"
         value={accountNumber}

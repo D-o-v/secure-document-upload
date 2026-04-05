@@ -1,3 +1,3 @@
-# Welcome to your Lovable project
+# FirstBank - Digital Account Maintenance Web Portal
 
-TODO: Document your project here
+A React + TypeScript web application for FirstBank's account management services.

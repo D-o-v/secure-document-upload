@@ -11,7 +11,7 @@ export default function ConsentStep({ onAccept, onReject }: ConsentStepProps) {
   const [accepted, setAccepted] = useState(false);
 
   return (
-    <div className="animate-fade-in">
+    <div className="animate-fade-in w-full max-w-2xl mx-auto">
       <h2 className="text-base font-semibold text-foreground mb-4">
         PERSONAL DATA PROCESSING CONSENT FORM
       </h2>
@@ -41,14 +41,14 @@ export default function ConsentStep({ onAccept, onReject }: ConsentStepProps) {
 
       <div className="flex gap-3">
         <button onClick={onReject} className="fb-btn-outline">
-          Reject
+          I Reject
         </button>
         <button
           onClick={onAccept}
           disabled={!accepted}
           className="fb-btn-primary"
         >
-          Accept
+          I Agree
         </button>
       </div>
     </div>

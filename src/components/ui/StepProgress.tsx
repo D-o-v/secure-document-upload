@@ -7,11 +7,13 @@ export default function StepProgress({ currentStep, totalSteps }: StepProgressPr
   const progress = (currentStep / totalSteps) * 100;
 
   return (
-    <div className="fb-progress-bar mb-6">
-      <div
-        className="fb-step-indicator bg-primary"
-        style={{ width: `${progress}%` }}
-      />
+    <div className="w-full max-w-2xl mx-auto mb-6">
+      <div className="fb-progress-bar">
+        <div
+          className="fb-step-indicator bg-primary"
+          style={{ width: `${progress}%` }}
+        />
+      </div>
     </div>
   );
 }

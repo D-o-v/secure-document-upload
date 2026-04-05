@@ -74,7 +74,7 @@
     @apply block text-sm font-medium text-foreground mb-1.5;
   }
   .fb-btn-primary {
-    @apply px-6 py-2.5 bg-primary text-primary-foreground font-medium rounded-md text-sm hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply px-6 py-2.5 bg-[#002855] text-white font-medium rounded-md text-sm hover:bg-[#001f44] transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
   }
   .fb-btn-outline {
     @apply px-6 py-2.5 border border-border text-foreground font-medium rounded-md text-sm hover:bg-muted transition-colors;
@@ -95,9 +95,9 @@
     @apply border-primary bg-primary/5;
   }
   .fb-progress-bar {
-    @apply w-full bg-muted rounded-full h-1.5 overflow-hidden;
+    @apply w-full bg-gray-200 rounded-full h-2 overflow-hidden;
   }
   .fb-step-indicator {
-    @apply h-1 rounded-full transition-all duration-300;
+    @apply h-2 rounded-full transition-all duration-300;
   }
 }

@@ -19,7 +19,7 @@ export async function verifyAccount(accountNumber: string): Promise<APIResponse<
 
 export async function verifyOTP(accountNumber: string, otp: string): Promise<APIResponse> {
   await delay(1200);
-  if (otp === "000000") {
+  if (otp !== "123456") {
     return { success: false, message: "The OTP code entered is wrong or expired." };
   }
   return { success: true, message: "OTP verified successfully" };

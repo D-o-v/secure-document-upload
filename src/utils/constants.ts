@@ -85,15 +85,15 @@ export const SERVICES: ServiceCard[] = [
   },
 ];
 
-export const CONSENT_TEXT = `I agree that FirstBank and its affiliates in the FBN Holdings Plc Group to collect, record, store, use, share, process and disclose all information including Personal Data and Sensitive Personal Data as defined in the Nigeria Data Protection Act, 2023 and similar data protection laws/regulations relating to you, your account, the products, the services of FirstBank, any related purpose and/or any communication you have with FirstBank, as provided by you or from third parties including, but not limited to, the following:
+export const CONSENT_TEXT = `To enable First Bank of Nigeria Limited ("FirstBank") provide you with its products and services, you hereby fully authorize FirstBank and its affiliates in the FBN Holdings Plc Group to collect, record, use, share, store, process and disclose all information (including Personal Data and Sensitive Personal Data as defined in the Nigeria Data Protection Act, 2023 and other applicable Data protection laws/regulations) relating to you and your accounts, including, without limitation, any personal data, information obtained from you or from third parties, usage of your account(s), transactions/payments conducted on your account(s), references provided and any other credit information maintained with or obtained by FirstBank and its affiliates in the FBN Holdings Plc Group (including those obtained from credit reference agencies).
 
-• To further to FirstBank and its affiliates in the FBN Holdings Plc Group to use your information to manage and administer your account(s), to inform your information with service providers, debt purchase agencies, credit reference agencies, debt collectors, governmental or regulatory bodies, credit reference and financial information verification vendors for verification.
+You further authorize FirstBank and its affiliates in the FBN Holdings Plc Group to use your information to manage and administer your account, to share your information with service providers, debt collection agencies, third-party partners, third party intermediaries, statutory, governmental or regulatory bodies, credit reference and fraud prevention agencies and tax authorities.
 
-• You acknowledge and agree that any such sharing or transfer of information will be on a confidential basis and according to the provisions of the Nigerian Data Protection Act, 2023. For more information on our privacy policy, please visit https://www.firstbanknigeria.com/privacy-policy/.
+You acknowledge and agree that any such sharing or transfer of information will be on a confidential basis and according to the provisions of the Nigerian Data Protection Act, 2023. For more information on our privacy policy, please visit https://www.firstbanknigeria.com/home/legal/privacy-policy/
 
-If you wish to withdraw your consent to Data processing relating to the processing of your personal information, you may do so at any time by calling us through FirstContact@FirstBankGroup.com or contact@FirstBankNigeria.com. Note that we will process your concerns. On those, of course, we will review them.
+If you wish to withdraw your consent or have concerns relating to the processing of your personal information, you may do so at any time by notifying us through firstcontact@firstbankgroup.com or dataprotectionoffice@firstbankgroup.com. We will respond to your concerns within 30 days of receiving your notice.
 
-You hereby confirm that you have read and understand the content of this consent form. You hereby give your consent to FirstBank of Nigeria, or all FBN Holding Plc Group subsidiaries including Keystone Bank and Heritage Bank to use it.`;
+You hereby confirm that you have read and understood the content of this consent form. You hereby grant your consent to FirstBank of Nigeria Ltd of 35 Marina, Lagos to process your Information including Personal Data and Sensitive Personal Data.`;
 
 export const TERMS_TEXT = `I, [Your Full Name or Legal Entity Name], hereby provide my consent to [Bank's Name] to open the following account(s) on my behalf:
 

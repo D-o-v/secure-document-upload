@@ -29,7 +29,7 @@ export default function Header({ onSearch, onSearchOpenChange, isSearchActive }:
             {!searchOpen && (
               <a
                 href="#"
-                className="hidden sm:inline-flex items-center text-xs font-medium text-[#002855] hover:underline cursor-pointer"
+                className="hidden sm:inline-flex items-center text-xs font-medium text-[#002855] underline cursor-pointer"
               >
                 Open a FirstBank account
               </a>
