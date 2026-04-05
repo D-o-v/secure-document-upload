@@ -1,6 +1,7 @@
 import { useCallback, useState, useRef, type DragEvent } from "react";
-import { Upload, X, FileText, Image, AlertCircle, CheckCircle2 } from "lucide-react";
+import { Upload, X, FileText, AlertCircle, CheckCircle2 } from "lucide-react";
 import { ACCEPTED_FILE_TYPES, MAX_FILE_SIZE, MAX_FILE_SIZE_LABEL } from "@/utils/constants";
+import UploadInstructionsModal from "@/components/ui/UploadInstructionsModal";
 
 interface FileUploadProps {
   label: string;
@@ -10,6 +11,8 @@ interface FileUploadProps {
   error?: string;
   accept?: string[];
   maxSize?: number;
+  showInstructions?: boolean;
+  documentType?: "id" | "passport";
 }
 
 export default function FileUpload({
@@ -20,10 +23,13 @@ export default function FileUpload({
   error,
   accept = ACCEPTED_FILE_TYPES,
   maxSize = MAX_FILE_SIZE,
+  showInstructions = false,
+  documentType = "id",
 }: FileUploadProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [uploadProgress, setUploadProgress] = useState<number | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
+  const [showModal, setShowModal] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const validateFile = useCallback(
@@ -48,7 +54,6 @@ export default function FileUpload({
         return;
       }
 
-      // Simulate upload progress
       setUploadProgress(0);
       const interval = setInterval(() => {
         setUploadProgress((prev) => {
@@ -102,6 +107,19 @@ export default function FileUpload({
     if (inputRef.current) inputRef.current.value = "";
   };
 
+  const handleZoneClick = () => {
+    if (showInstructions && !value) {
+      setShowModal(true);
+    } else {
+      inputRef.current?.click();
+    }
+  };
+
+  const handleInstructionsContinue = () => {
+    setShowModal(false);
+    inputRef.current?.click();
+  };
+
   const formatFileSize = (bytes: number) => {
     if (bytes < 1024) return `${bytes} B`;
     if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
@@ -119,14 +137,14 @@ export default function FileUpload({
           onDrop={handleDrop}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
-          onClick={() => inputRef.current?.click()}
+          onClick={handleZoneClick}
           role="button"
           tabIndex={0}
           aria-label={`Upload ${label}`}
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") {
               e.preventDefault();
-              inputRef.current?.click();
+              handleZoneClick();
             }
           }}
         >
@@ -205,6 +223,13 @@ export default function FileUpload({
       <p className="text-xs text-muted-foreground">
         Document must be clear, legible and genuine. Upload original file.
       </p>
+
+      <UploadInstructionsModal
+        open={showModal}
+        onClose={() => setShowModal(false)}
+        onContinue={handleInstructionsContinue}
+        documentType={documentType}
+      />
     </div>
   );
 }
