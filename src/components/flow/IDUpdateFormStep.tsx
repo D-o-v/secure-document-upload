@@ -130,9 +130,6 @@ export default function IDUpdateFormStep({
         />
       </div>
 
-      <p className="text-xs text-muted-foreground">
-        Document must be clear, legible and genuine. Upload uprightly.
-      </p>
 
       <Controller
         name="utilityBillFile"
