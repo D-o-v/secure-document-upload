@@ -60,6 +60,15 @@ export default function UploadInstructionsModal({
     if (open) setCurrentSlide(0);
   }, [open]);
 
+  // Auto-advance slides every 3 seconds
+  useEffect(() => {
+    if (!open) return;
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [open, slides.length]);
+
   const goNext = useCallback(() => {
     if (currentSlide < slides.length - 1) {
       setCurrentSlide((s) => s + 1);
@@ -100,7 +109,7 @@ export default function UploadInstructionsModal({
       >
         {/* Header */}
         <div className="px-6 pt-8 pb-1">
-          <h3 className="text-xl font-bold text-primary">{title}</h3>
+          <h3 className="text-xl font-bold text-[#002855]">{title}</h3>
           <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
             Follow the instructions below to make sure your photo meets our requirements
           </p>
@@ -114,7 +123,7 @@ export default function UploadInstructionsModal({
               onClick={() => setCurrentSlide(i)}
               className={`rounded-full transition-all duration-300 ${
                 i === currentSlide
-                  ? "w-3 h-3 bg-primary"
+                  ? "w-3 h-3 bg-[#002855]"
                   : "w-2.5 h-2.5 bg-muted-foreground/30"
               }`}
               aria-label={`Go to slide ${i + 1}`}
@@ -132,7 +141,7 @@ export default function UploadInstructionsModal({
               className={`flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center transition-all ${
                 currentSlide === 0
                   ? "opacity-0 pointer-events-none"
-                  : "bg-primary text-primary-foreground hover:bg-primary/90"
+                  : "bg-[#002855] text-white hover:bg-[#001f44]"
               }`}
               aria-label="Previous slide"
             >
@@ -163,7 +172,7 @@ export default function UploadInstructionsModal({
             {/* Right arrow */}
             <button
               onClick={goNext}
-              className="flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center bg-primary text-primary-foreground hover:bg-primary/90 transition-all"
+              className="flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center bg-[#002855] text-white hover:bg-[#001f44] transition-all"
               aria-label={currentSlide === slides.length - 1 ? "Continue to upload" : "Next slide"}
             >
               <ChevronRight className="w-5 h-5" />
@@ -173,7 +182,7 @@ export default function UploadInstructionsModal({
 
         {/* Instruction text */}
         <div className="px-6 pt-4 pb-8 min-h-[90px]">
-          <p className="text-base font-bold text-primary leading-relaxed transition-opacity duration-300">
+          <p className="text-base font-bold text-[#002855] leading-relaxed transition-opacity duration-300">
             {slides[currentSlide].text}
           </p>
         </div>
