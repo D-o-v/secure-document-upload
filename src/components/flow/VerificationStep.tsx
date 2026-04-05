@@ -112,15 +112,18 @@ export default function VerificationStep({ onVerified, serviceTitle }: Verificat
 
               <div className="flex items-center gap-2 text-xs lg:pb-2">
                 <span className="text-muted-foreground">Didn't receive OTP?</span>
-                <button
-                  onClick={handleResendOTP}
-                  disabled={resendTimer > 0}
-                  className="fb-link disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {resendTimer > 0
-                    ? `Resend in 0.${String(resendTimer).padStart(2, "0")} secs`
-                    : "Resend OTP"}
-                </button>
+                {resendTimer > 0 ? (
+                  <span className="text-[#002855] underline font-medium">
+                    Resend in 0.{String(resendTimer).padStart(2, "0")} secs
+                  </span>
+                ) : (
+                  <button
+                    onClick={handleResendOTP}
+                    className="text-[#002855] underline font-medium hover:text-[#001f44]"
+                  >
+                    Resend OTP
+                  </button>
+                )}
               </div>
             </div>
 

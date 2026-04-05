@@ -71,9 +71,6 @@ export default function OTPInput({ value, onChange, error, disabled }: OTPInputP
           />
         ))}
       </div>
-      {error && (
-        <p className="fb-error" role="alert">{error}</p>
-      )}
     </div>
   );
 }

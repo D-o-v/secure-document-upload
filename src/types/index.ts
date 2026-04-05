@@ -23,7 +23,10 @@ export type FlowStep =
   | "otp"
   | "form"
   | "terms"
+  | "additional-info"
   | "complete";
+
+export type SubmissionOutcome = "success" | "failure" | "additional-info";
 
 export interface UploadedFile {
   file: File;

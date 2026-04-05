@@ -6,25 +6,28 @@ import ResultModal from "@/components/ui/ResultModal";
 import { ArrowLeft } from "lucide-react";
 import type { FlowStep } from "@/types";
 import type { IDUpdateFormValues } from "@/components/flow/IDUpdateFormStep";
-import { submitIDUpdate } from "@/services/api";
+import type { AdditionalInfoFormValues } from "@/components/flow/AdditionalInfoStep";
+import { submitIDUpdate, submitAdditionalInfo } from "@/services/api";
 
 const ConsentStep = lazy(() => import("@/components/flow/ConsentStep"));
 const VerificationStep = lazy(() => import("@/components/flow/VerificationStep"));
 const IDUpdateFormStep = lazy(() => import("@/components/flow/IDUpdateFormStep"));
 const TermsStep = lazy(() => import("@/components/flow/TermsStep"));
+const AdditionalInfoStep = lazy(() => import("@/components/flow/AdditionalInfoStep"));
 
 interface IDUpdateFlowProps {
   onBack: () => void;
 }
 
-const STEPS: FlowStep[] = ["consent", "verification", "form", "terms", "complete"];
+const STEPS: FlowStep[] = ["consent", "verification", "form", "terms", "additional-info", "complete"];
 const STEP_INDEX: Record<FlowStep, number> = {
   consent: 1,
   verification: 2,
   otp: 2,
   form: 3,
   terms: 4,
-  complete: 5,
+  "additional-info": 5,
+  complete: 6,
 };
 
 export default function IDUpdateFlow({ onBack }: IDUpdateFlowProps) {
@@ -71,7 +74,14 @@ export default function IDUpdateFlow({ onBack }: IDUpdateFlowProps) {
     const result = await submitIDUpdate(fd);
     setIsSubmitting(false);
 
-    if (result.success) {
+    const outcome = result.data?.outcome;
+
+    if (outcome === "additional-info") {
+      setStep("additional-info");
+      return;
+    }
+
+    if (outcome === "success") {
       setModal({
         open: true,
         variant: "success",
@@ -88,6 +98,46 @@ export default function IDUpdateFlow({ onBack }: IDUpdateFlowProps) {
     }
   }, [formData, accountNumber]);
 
+  const handleAdditionalInfoSubmit = useCallback(async (data: AdditionalInfoFormValues) => {
+    setIsSubmitting(true);
+    const fd = new FormData();
+    fd.append("accountNumber", accountNumber);
+    fd.append("occupation", data.occupation);
+    fd.append("natureOfBusiness", data.natureOfBusiness);
+    if (data.employerName) fd.append("employerName", data.employerName);
+    if (data.employerAddress) fd.append("employerAddress", data.employerAddress);
+    if (data.annualTurnOver) fd.append("annualTurnOver", data.annualTurnOver);
+    if (data.utilityBillFile) fd.append("utilityBill", data.utilityBillFile);
+
+    const result = await submitAdditionalInfo(fd);
+    setIsSubmitting(false);
+
+    if (result.success) {
+      setModal({
+        open: true,
+        variant: "success",
+        title: "Submission successful",
+        message: result.message,
+      });
+    } else {
+      setModal({
+        open: true,
+        variant: "error",
+        title: "Update request failed",
+        message: result.message,
+      });
+    }
+  }, [accountNumber]);
+
+  const handleAdditionalInfoSkip = useCallback(() => {
+    setModal({
+      open: true,
+      variant: "success",
+      title: "Submission successful",
+      message: "Your update request is in progress. It will be treated within 24 hours.",
+    });
+  }, []);
+
   const handleGoBack = useCallback(() => {
     const idx = STEPS.indexOf(step);
     if (idx <= 0) {
@@ -99,7 +149,7 @@ export default function IDUpdateFlow({ onBack }: IDUpdateFlowProps) {
 
   return (
     <AppLayout>
-      <div className="mb-4">
+      <div className="w-full max-w-2xl mx-auto mb-4">
         <button
           onClick={handleGoBack}
           className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -109,7 +159,7 @@ export default function IDUpdateFlow({ onBack }: IDUpdateFlowProps) {
         </button>
       </div>
 
-      <StepProgress currentStep={STEP_INDEX[step]} totalSteps={5} />
+      <StepProgress currentStep={STEP_INDEX[step]} totalSteps={6} />
 
       {isSubmitting ? (
         <Loader text="Submitting your request..." size="lg" />
@@ -138,6 +188,13 @@ export default function IDUpdateFlow({ onBack }: IDUpdateFlowProps) {
             <TermsStep
               onAccept={handleTermsAccepted}
               onReject={() => setStep("form")}
+            />
+          )}
+          {step === "additional-info" && (
+            <AdditionalInfoStep
+              onSubmit={handleAdditionalInfoSubmit}
+              onSkip={handleAdditionalInfoSkip}
+              isSubmitting={isSubmitting}
             />
           )}
         </Suspense>

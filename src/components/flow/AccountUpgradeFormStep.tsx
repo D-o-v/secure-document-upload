@@ -139,6 +139,10 @@ export default function AccountUpgradeFormStep({
         )}
       />
 
+      <p className="text-xs text-muted-foreground">
+        Document must be clear, legible and genuine. Upload original file.
+      </p>
+
       <button
         type="submit"
         disabled={isSubmitting}

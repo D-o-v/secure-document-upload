@@ -24,6 +24,7 @@ const STEP_INDEX: Record<FlowStep, number> = {
   otp: 2,
   form: 3,
   terms: 4,
+  "additional-info": 5,
   complete: 5,
 };
 
@@ -92,7 +93,7 @@ export default function AccountUpgradeFlow({ onBack }: AccountUpgradeFlowProps) 
 
   return (
     <AppLayout>
-      <div className="mb-4">
+      <div className="w-full max-w-2xl mx-auto mb-4">
         <button
           onClick={handleGoBack}
           className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
